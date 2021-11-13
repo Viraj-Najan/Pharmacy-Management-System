@@ -1,0 +1,97 @@
+create table CUSTOMER(
+	Patient_ID	varchar(20),
+	Name 	varchar(50),
+	Address	varchar(100),
+	Contact_No	varchar(10),
+	primary key(Patient_ID));
+
+create table DRUG_MANUFACTURER(
+	Company_ID	varchar(50),
+	Name varchar(50),
+	primary key(Company_ID));
+	
+create table DOCTOR(
+	Doctor_ID	varchar(20),
+	Contact_No	varchar(10),
+	Name 	varchar(50),
+	Specialization	varchar(50),
+	primary key(Doctor_ID));
+	
+create table SALE_TRANSACTION(
+	Sale_ID	varchar(20),
+	Date	varchar(8),
+	Employee_ID	varchar(20),
+	primary key(Sale_ID, Employee_ID),
+	foreign key(Employee_ID) references EMPLOYEE(Employee_ID) on delete cascade);
+	
+create table PURCHASE(
+	Date	varchar(8),
+	Purchase_ID	varchar(20),
+	primary key(Purchase_ID));
+	
+create table SELLS(
+	Sale_ID	varchar(20),
+	Drug_ID	varchar(20),
+	Patient_ID	varchar(20),
+	Quantity	varchar(20),
+	primary key(Sale_ID, Drug_ID, Patient_ID),
+	foreign key(Sale_ID) references SALE_TRANSACTION(Sale_ID) on delete cascade,
+	foreign key(Drug_ID) references DRUG(Drug_ID) on delete cascade,
+	foreign key(Patient_ID) references CUSTOMER(Patient_ID) on delete cascade);
+	
+create table PRESCRIBES(
+	Patient_ID	varchar(20),
+	Doctor_ID	varchar(20),
+	Drug_ID	varchar(20),
+	primary key(Drug_ID, Doctor_ID, Patient_ID),
+	foreign key(Drug_ID) references DRUG(Drug_ID) on delete cascade,
+	foreign key(Doctor_ID) references DOCTOR(Doctor_ID) on delete cascade,
+	foreign key(Patient_ID) references CUSTOMER(Patient_ID) on delete cascade);
+	
+create table DRUG(
+	Locaton	varchar(100),
+	Cost_Price	varchar(20),
+	Stock	varchar(20),
+	Drug_ID	varchar(20),
+	Name	varchar(50),
+	Discount	varchar(20),
+	MRP	varchar(20),
+	Company_ID	varchar(20),
+	Expiry	varchar(20),
+	primary key(Drug_ID)
+	foreign key(Company_ID) references DRUG_MANUFACTURER(Company_ID) on delete cascade);
+	
+create table SUPPLIES(
+	Quantity	varchar(20),
+	Purchase_ID	varchar(20),
+	Distributor_ID	varchar(20),
+	Drug_ID	varchar(20),
+	primary key(Drug_ID, Distributor_ID, Purchase_ID),
+	foreign key(Drug_ID) references DRUG(Drug_ID) on delete cascade,
+	foreign key(Distributor_ID) references DISTRIBUTOR(Distributor_ID) on delete cascade,
+	foreign key(Purchase_ID) references PURCHASE(Purchase_ID) on delete cascade);
+	
+create table DISTRIBUTOR(
+	Distributor_ID	varchar(20),
+	Contact	varchar(20),
+	primary key(Distributor_ID));
+	
+create table EMPLOYEE(
+	Employee_ID	varchar(20),
+	Name 	varchar(20),
+	Contact	varchar(20),
+	primary key(Employee_ID));
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
